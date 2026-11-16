@@ -13,6 +13,7 @@
 | --- | --- | --- |
 | [`neo-brutalist-page`](skills/neo-brutalist-page) | 用新粗野主义（Neo-Brutalism）风格做单文件 HTML 宣传页／落地页／能力展示页／数据报告页。含固定色板与排版 token、组件配方、必做交互清单、禁忌清单、Bun.WebView 自检脚本，以及一份 796 行的完整参考实例 | 「做个宣传页」「做得酷一点」「粗野风」 |
 | [`admin-console-ui-design`](skills/admin-console-ui-design) | 后台管理台（admin console）的视觉与交互系统：左侧栏 + 顶栏的应用壳、KPI 卡／对象卡／表格／表单／弹窗／登录页的组件配方、语义 token 与状态色映射、抓取页面的四种状态（loading／error／empty／success）、无障碍与键盘约束。React 19 + Tailwind v4；包名、路由、i18n、品牌名等占位符按项目替换 | 「做个后台页面」「管理台的列表页／表单／弹窗」「统一一下设计 token」「做个登录页」 |
+| [`mistake-to-guardrail`](skills/mistake-to-guardrail) | 把修好的 bug 或反复出现的 agent 失误固化成**机械检查**（类型改不变量／clippy、go vet 规则／ast-grep、stdlib-AST 测试／架构测试／行为测试／headless UI 断言／像素 golden／平台探针），并证明它在**旧代码上会红**。含 8 步工作流（含出口判据）、按成本排序的机制阶梯、红-绿证明与 allowlist 卫生协议、勿固化清单、常见反模式 | 「别再犯」「每次都这样」「固化一下」「加个 lint／测试让它不会再犯」「机制化」 |
 | [`web-style-skins`](skills/web-style-skins) | 「一份 DOM、多套皮肤」：内置三套已验证的风格配方（新粗野主义／终端 CRT／瑞士国际主义排版，参考实例里再加一套 Riso 套印），含每套的色板与排版 token、共享 DOM 的多皮肤框架（每格独立主题、网格↔单屏、localStorage 记忆、键盘操作）、以及一个会真的点按钮、按键盘、刷新页面跑 17 项断言的 Bun.WebView 自检脚本 | 「换一个风格试试」「几种风格对比一下」「做个终端风／瑞士风／极简排版的页面」「这个页面换个皮肤」 |
 | [`ste-interactive-report`](skills/ste-interactive-report) | 用「ASD-STE100 规范风格 + 分步引导」写单文件 HTML 研究报告（单票／行业／审计／复盘）。含中文 STE 落地八条（句长、主动语态、固定术语、数字三件套、信号词分级）、七步引导结构与步进条、七个交互件（事件折叠／分段切换／估值滑块／情景卡／核对清单／图表悬停／只看结论）、数据口径纪律（GAAP vs non-GAAP、指引 vs 一致预期）、版式对齐纪律，以及 17 项断言（按元素存在性执行）的 Bun.WebView 自检脚本和一份完整单票研究实例 | 「写个报告」「调研一下 X 的消息面和股价」「风格要规范一点」「做成能一步步看的」 |
 | [`interactive-3d-showcase`](skills/interactive-3d-showcase) | 把 3D 模型做成能拖转、缩放、播放动画的单文件 HTML 展示页（暖纸色 + 衬线标题 + 陶土橙／青瓷绿的「工作室」观感），并覆盖从零造资产的 Blender 管线：AI 经 MCP 控 Blender 建模、程序化几何、armature 蒙皮与循环动画、Cycles 出图、导出带骨骼的 GLB。含 token、两栏页面骨架、model-viewer 配方、四张错题卡（`--background` 起不了 MCP、GUI 里渲染死锁 timer、Agent Window 不跑 rAF、发光小件沉进头里），以及一个会轮询断言「模型真的 loaded」的 Bun.WebView 自检脚本 | 「把模型放到网页上」「做个 3D 展示页」「model-viewer」「Blender 出个模型做个页面」「按这条推文里的 3D 流程做一版」 |
@@ -29,18 +30,19 @@
 #      install_skill("skills/admin-console-ui-design")
 #      install_skill("skills/ste-interactive-report")
 #      install_skill("skills/interactive-3d-showcase")
+#      install_skill("skills/mistake-to-guardrail")
 
 # 2) 手动：直接拷进技能根
 git clone https://github.com/<you>/skills.git
-cp -R skills/neo-brutalist-page skills/web-style-skins skills/admin-console-ui-design skills/ste-interactive-report skills/interactive-3d-showcase \
+cp -R skills/neo-brutalist-page skills/web-style-skins skills/admin-console-ui-design skills/ste-interactive-report skills/interactive-3d-showcase skills/mistake-to-guardrail \
      ~/.my-app-ui-local/skills/   # 路径按你的宿主改
 ```
 
-装好后在会话里说一句「做个宣传页」「换一个风格试试」「做个后台页面」「写个报告」「把模型放到网页上」就会命中。
+装好后在会话里说一句「做个宣传页」「换一个风格试试」「做个后台页面」「写个报告」「把模型放到网页上」「这个 bug 别再犯了」就会命中对应的技能。
 
 ## 各自的自检脚本
 
-写完页面**必须**跑一遍，别只看渲染结果。两个脚本都是「起本地 HTTP 服务 → 在 `Bun.WebView` 里打开 → 抓报错 → 跑断言 → 分段截图到 `shots/` → 退出码给成败」。
+写完页面**必须**跑一遍，别只看渲染结果。各脚本都是「起本地 HTTP 服务 → 在 `Bun.WebView` 里打开 → 抓报错 → 跑断言 → 分段截图到 `shots/` → 退出码给成败」。`mistake-to-guardrail` 不带脚本，它给的是规则模板（`templates/`）与「先在旧代码上跑红」的证明协议。
 
 ```bash
 # 单页：断言无横向溢出、无文字被裁、没有元素卡在透明状态；桌面 6 段 + 窄屏 2 段截图
